@@ -9,9 +9,9 @@ void debug_process(){
   Serial.print(F("Y:"));
   Serial.print((float)(angleY));
   Serial.print('\t');
-  //Serial.print(F("Z:"));
-  //Serial.print((float)(angleZ));
-  //Serial.print('\t');
+  Serial.print(F("Z:"));
+  Serial.print((float)(angleZ));
+  Serial.print('\t');
 #endif
 
 #ifdef DEBUG_RX

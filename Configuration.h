@@ -49,7 +49,7 @@
 #define PACKET_SIZE 12
 
 //-------Debug Config---------
-#define DEBUG_OUTPUT
+//#define DEBUG_OUTPUT
 //#define DEBUG_ANGLES
 //#define DEBUG_PID
 #define DEBUG_RX
@@ -72,8 +72,8 @@
 #define PIN_RX_YAW 21
 
 //-------MOTOR PINS-----------
-#define PIN_MOTOR0  6
-#define PIN_MOTOR1  9
+#define PIN_MOTOR0  9
+#define PIN_MOTOR1  6
 #define PIN_MOTOR2  10
 #define PIN_MOTOR3  5
 
