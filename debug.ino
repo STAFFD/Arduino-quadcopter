@@ -32,19 +32,19 @@ void debug_process(){
 
 #ifdef DEBUG_PID
   Serial.print(F("PID_R:"));
-  Serial.print(pid_roll_in);Serial.print(',');
-  Serial.print(pid_roll_setpoint);Serial.print(',');
+//  Serial.print(pid_roll_in);Serial.print(',');
+//  Serial.print(pid_roll_setpoint);Serial.print(',');
   Serial.print(pid_roll_out);
   Serial.print('\t');
   Serial.print(F("PID_P:"));
-  Serial.print(pid_pitch_in);Serial.print(',');
-  Serial.print(pid_pitch_setpoint);Serial.print(',');
+//  Serial.print(pid_pitch_in);Serial.print(',');
+//  Serial.print(pid_pitch_setpoint);Serial.print(',');
   Serial.print(pid_pitch_out);
   Serial.print('\t');
-  //Serial.print(F("PID_Y:"));
+  Serial.print(F("PID_Y:"));
   //Serial.print(pid_yaw_in);Serial.print(',');
   //Serial.print(pid_yaw_setpoint);Serial.print(',');
-  //Serial.print(pid_yaw_out);
+  Serial.print(pid_yaw_out);
   //Serial.print('\t');
 #endif
 

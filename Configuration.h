@@ -1,15 +1,16 @@
 #define SAFE
-
+// ------ Arm config---------
+#define CALIBRATE
 //-------PID Config----------
-#define ROLL_PID_KP  0.250
-#define ROLL_PID_KI  0.950
-#define ROLL_PID_KD  0.011
+#define ROLL_PID_KP  4.950
+#define ROLL_PID_KI  0.350
+#define ROLL_PID_KD  0.91
 #define ROLL_PID_MIN  -200.0
 #define ROLL_PID_MAX  200.0
 
-#define PITCH_PID_KP  0.250
-#define PITCH_PID_KI  0.950
-#define PITCH_PID_KD  0.011
+#define PITCH_PID_KP  4.950
+#define PITCH_PID_KI  0.350
+#define PITCH_PID_KD  0.91
 #define PITCH_PID_MIN  -200.0
 #define PITCH_PID_MAX  200.0
 
@@ -18,10 +19,7 @@
 #define YAW_PID_KD  0.0001
 #define YAW_PID_MIN  100.0
 #define YAW_PID_MAX  100.0
-
 //-------------------------
-
-
 
 //-------RX Config----------
 #define THROTTLE_RMIN  1000
@@ -51,8 +49,8 @@
 //-------Debug Config---------
 //#define DEBUG_OUTPUT
 //#define DEBUG_ANGLES
-//#define DEBUG_PID
-#define DEBUG_RX
+#define DEBUG_PID
+//#define DEBUG_RX
 //#define DEBUG_MOTORS
 //#define DEBUG_LOOP_TIME
 //----------------------------
@@ -61,8 +59,6 @@
 #define MOTOR_ZERO_LEVEL  1000
 #define MOTOR_ARM_START  1500
 #define MOTOR_MAX_LEVEL  2000
-
-
 
 //-------RX PINS-------------
 #define RX_PINS_OFFSET 15

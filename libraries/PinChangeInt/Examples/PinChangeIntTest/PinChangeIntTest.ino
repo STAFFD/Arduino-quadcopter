@@ -1,9 +1,8 @@
 // PinChangeIntTest
-// version 1.0 Wed Feb 15 07:25:09 CST 2012
-// Version 1.1 Fri Jun 22 19:10:50 CDT 2012 minor tweaks to eliminate compiler warnings.  Also, there were bugfixes in ByteBuffer.
-//                                          I had some "cli()" without "sei()" in there.
+//
 // See the Wiki at http://code.google.com/p/arduino-pinchangeint/wiki for more information.
 // This sketch requires the ByteBuffer library, which is found in the PinChangeInt zipfile.
+// for vim editing: :set et ts=2 sts=2 sw=2
 //-------- define these in your sketch, if applicable ----------------------------------------------------------
 //-------- This must go ahead of the #include statement --------------------------------------------------------
 // You can reduce the memory footprint of this handler by declaring that there will be no pin change interrupts
@@ -30,27 +29,39 @@
 #include <ByteBuffer.h>
 #include <PinChangeInt.h>
 
+#define NEWLINE "\r\n"  // Programs like "screen" in Linux don't return with a "\n" character.
+
 // This example demonstrates a configuration of 6 interrupting pins and 3 interrupt functions.
 // A variety of interrupting pins have been chosen, so as to test all PORTs on the Arduino.
 // The pins are as follows:
+// quicfunc0 is attached to tPIN1-4.
+// quicfunc1 is attached to tPIN5.
+// quicfunc2 is attached to tPIN6.
+// Pins tPIN1 and tPIN6 interrupt on FALLING.
+// tPIN2 and tPIN4 interrupt on RISING.
+// tPIN3 and tPIN5 interrupt on CHANGE.
+// NOTE:
+// For the Analog Input pins used as digital input pins, you can use numbers such as 14, 15, 16, etc.
+// or you can use A0, A1, A2, etc. (the Arduino code comes with #define's for the Analog Input pin
+// names and will properly recognize e.g., pinMode(A0, INPUT_PULLUP));
+#if defined __AVR_ATmega2560__ || defined __AVR_ATmega1280__ || defined __AVR_ATmega1281__ || defined __AVR_ATmega2561__ || defined __AVR_ATmega640__
+#define tPIN1 14  // port J
+#define tPIN2 15
+#define tPIN3 A8 // Port K
+#define tPIN4 A12
+#define tPIN5 SS   // Port B, also can be given as "57"
+#define tPIN6 MOSI // This pin starts and stops the count
+#else
+// These only work for ATMega328-compatibles; ie, Leonardo is not covered here.
 #define tPIN1 2  // port D
 #define tPIN2 3
 #define tPIN3 11 // Port B
 #define tPIN4 12
 #define tPIN5 A3 // Port C, also can be given as "17"
-#define tPIN6 A4 // starts and stops the count
-// All pins send interrupts.  Arduino pins 2 and A4 (tPIN1,6) interrupt on FALLING.
-// Arduino pins 3 and 12 (tPIN2,4) interrupt on RISING.
-// Arduino pins 11 and A3 (tPIN5) interrupts on CHANGE.
-// quicfunc0 is attached to Arduino pins 2, 3, 11, and 12 (tPIN1-4)
-// quicfunc1 is attached to Arduino pin A3 (tPIN5)
-// quicfunc2 is attached to Arduino pin A4 (tPIN6).
-// NOTE:
-// For the Analog Input pins used as digital input pins, you can use numbers such as 14, 15, 16, etc.
-// or you can use A0, A1, A2, etc. (the Arduino code comes with #define's for the Analog Input pin
-// names and will properly recognize e.g., pinMode(A0, INPUT));
+#define tPIN6 A4 // This pin starts and stops the count
+#endif
 
-// HOW IT WORKS
+// HOW IT WORKS (ATmega328-specific; replace the references with the proper pins for the other chip types)
 // The interrupt on Arduino pin A4 (tPIN6) will, when triggered, start the counting of interrupts.  
 // The array interrupt_count0[20] is updated in the interrupts; each cell keeps track of the number
 // of interrupts on one of the 20 available interrupt pins on the Arduino.  Every second in the main
@@ -225,7 +236,7 @@ void quicfunc0() {
   uint8ToString(numBuffer, digitalPinToPort(latest_interrupted_pin));
   printBuffer.putString(numBuffer);
   if (start !=1) printBuffer.putString((char *) " (counting off)");
-  printBuffer.putString((char *) "\n");
+  printBuffer.putString((char *) NEWLINE);
 };
 
 void quicfunc1() {
@@ -240,7 +251,7 @@ void quicfunc1() {
   uint8ToString(numBuffer, digitalPinToPort(latest_interrupted_pin));
   printBuffer.putString(numBuffer);
   if (start !=1) printBuffer.putString((char *) " (counting off)");
-  printBuffer.putString((char *) "\n");
+  printBuffer.putString((char *) NEWLINE);
 };
 
 void quicfunc2() {
@@ -252,7 +263,8 @@ void quicfunc2() {
     printBuffer.putString((char *) "Interrupt OFF on tPIN1 ("); uint8ToString(numBuffer, tPIN1), printBuffer.putString(numBuffer);
     printBuffer.putString((char *) ") tPIN3 (");uint8ToString(numBuffer, tPIN3), printBuffer.putString(numBuffer);
     printBuffer.putString((char *) ") tPIN5 (");uint8ToString(numBuffer, tPIN5), printBuffer.putString(numBuffer);
-    printBuffer.putString((char *) ")\n");
+    printBuffer.putString((char *) ")");
+    printBuffer.putString((char *) NEWLINE);
     PCintPort::detachInterrupt(tPIN1); PCintPort::detachInterrupt(tPIN3); PCintPort::detachInterrupt(tPIN5); 
     start=0;
   } else {
@@ -262,7 +274,7 @@ void quicfunc2() {
     uint8ToString(numBuffer, latest_interrupted_pin);
     printBuffer.putString(numBuffer); printBuffer.putString((char *) "-P");
     uint8ToString(numBuffer, digitalPinToPort(latest_interrupted_pin));
-    printBuffer.putString(numBuffer); printBuffer.putString((char *) "\n");
+    printBuffer.putString(numBuffer); printBuffer.putString((char *) NEWLINE);
     if (! initial) {
       PCintPort::attachInterrupt(tPIN1, &quicfunc0, FALLING);
       PCintPort::attachInterrupt(tPIN3, &quicfunc0, CHANGE);
@@ -278,9 +290,8 @@ void setup() {
   Serial.begin(115200);
   delay(250);
   Serial.println("Test");
-  delay(500);
-  for (i=0; i < 7; i++) {
-    pinMode(pins[i], INPUT); digitalWrite(pins[i], HIGH);
+  for (i=0; i < 6; i++) {
+    pinMode(pins[i], INPUT_PULLUP);
     ports[i]=digitalPinToPort(pins[i]);
     switch (pins[i]) {
     case tPIN1:
@@ -297,7 +308,7 @@ void setup() {
         PCintPort::attachInterrupt(pins[i], &quicfunc1, CHANGE);
     break;
     case tPIN6:
-        PCintPort::attachInterrupt(pins[i], &quicfunc2, FALLING);
+        attachPinChangeInterrupt(pins[i], quicfunc2, FALLING); // attachPinChangeInterrupt is a #define
     break;
     }
   }
