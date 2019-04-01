@@ -4,15 +4,13 @@
 */
 #include "Configuration.h"
 #include "I2Cdev.h"
-#include "MPU6050_6Axis_MotionApps20.h"
+#include <MPU6050_6Axis_MotionApps20.h>
 #include <Math.h>
 #include <PID_v1.h>
 #include <PinChangeInt.h>
 #include <Servo.h> 
 #include <Wire.h>
 #include <Kalman.h>
-#include <PIDCont.h>
-#include <MPULib.h>
 
 // Angles & angleSpeed
 float angleX,angleY,angleZ;
@@ -21,10 +19,11 @@ float angleSpeedX, angleSpeedY, angleSpeedZ;
 // RX Signals
 int throttle=THROTTLE_RMIN;
 volatile int rx_values[4]; // ROLL, PITCH, THROTTLE, YAW
+bool interruptLock;
 
 // PID variables
-double pid_roll_in,   pid_roll_out,   pid_roll_setpoint = 0;
-double pid_pitch_in,  pid_pitch_out,  pid_pitch_setpoint = 0;
+double pid_pitch_in,  pid_pitch_out,  pid_pitch_setpoint = -3;
+double pid_roll_in,   pid_roll_out,   pid_roll_setpoint = -5;
 double pid_yaw_in,    pid_yaw_out,    pid_yaw_setpoint = 0;
   
 // Motors -> white is front.
@@ -56,17 +55,6 @@ uint8_t teapotPacket[14] = { '$', 0x02, 0,0, 0,0, 0,0, 0,0, 0x00, 0x00, '\r', '\
 
 MPU6050 mpu;
 
-
-
-//PIDCont PIDroll,PIDpitch,PIDyaw,PIDangleX,PIDangleY;
-//MPULib MPU;
-//
-//unsigned long tp;
-//float angles[2]={
-//  0.0,0.0};
-//float gx_aver=0;
-//float gy_aver=0;
-//float gz_aver=0;
 /***************************************************/ 
 
 /********** Create the kalman filter for IMU **********/

@@ -3,10 +3,12 @@ void control_update(){
   throttle=map(rx_values[2],THROTTLE_RMIN,THROTTLE_RMAX,MOTOR_ZERO_LEVEL,MOTOR_MAX_LEVEL);
   
 //  setpoint_update();
-
+  acquireLock();
+  
   pid_update();
   pid_compute();
 
+  releaseLock();
   // m0   m1
   //    X
   // m2   m3

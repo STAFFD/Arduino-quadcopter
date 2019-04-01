@@ -58,9 +58,6 @@ if ((mpuIntStatus & _BV(MPU6050_INTERRUPT_FIFO_OFLOW_BIT)) || fifoCount >= 1024)
       mpu.dmpGetGyro(&angle_speed, fifoBuffer);  //Update only per 1300us, (~800Hz update rate)
     tf=micros();  
   }
-
-  
-
             
   angleX = ypr[2] * 180/M_PI;
   angleY = ypr[1] * 180/M_PI;
