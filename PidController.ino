@@ -1,6 +1,6 @@
-PID pitch_controller(&pid_pitch_in, &pid_pitch_out, 0, PITCH_PID_KP, PITCH_PID_KI, PITCH_PID_KD, REVERSE);
-PID roll_controller(&pid_roll_in,   &pid_roll_out,  0, ROLL_PID_KP,  ROLL_PID_KI,  ROLL_PID_KD,  REVERSE);
-PID yaw_controller(&pid_yaw_in,     &pid_yaw_out,   0, YAW_PID_KP,   YAW_PID_KI,   YAW_PID_KD,   DIRECT); 
+PID pitch_controller(&pid_pitch_in, &pid_pitch_out, &pid_pitch_setpoint,  PITCH_PID_KP, PITCH_PID_KI, PITCH_PID_KD, REVERSE);
+PID roll_controller(&pid_roll_in,   &pid_roll_out,  &pid_roll_setpoint,   ROLL_PID_KP,  ROLL_PID_KI,  ROLL_PID_KD,  REVERSE);
+PID yaw_controller(&pid_yaw_in,     &pid_yaw_out,   &pid_yaw_setpoint,    YAW_PID_KP,   YAW_PID_KI,   YAW_PID_KD,   DIRECT); 
 
 void pid_initialize() {
   roll_controller.SetOutputLimits(ROLL_PID_MIN,ROLL_PID_MAX);

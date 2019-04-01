@@ -2,19 +2,19 @@
 // ------ Arm config---------
 #define CALIBRATE
 //-------PID Config----------
-#define ROLL_PID_KP  4.950
-#define ROLL_PID_KI  0.350
-#define ROLL_PID_KD  0.91
+#define ROLL_PID_KP  4.250
+#define ROLL_PID_KI  0.050
+#define ROLL_PID_KD  0.51
 #define ROLL_PID_MIN  -200.0
 #define ROLL_PID_MAX  200.0
 
-#define PITCH_PID_KP  4.950
-#define PITCH_PID_KI  0.350
-#define PITCH_PID_KD  0.91
+#define PITCH_PID_KP  4.250
+#define PITCH_PID_KI  0.050
+#define PITCH_PID_KD  0.51
 #define PITCH_PID_MIN  -200.0
 #define PITCH_PID_MAX  200.0
 
-#define YAW_PID_KP  0.680
+#define YAW_PID_KP  3.680
 #define YAW_PID_KI  0.500
 #define YAW_PID_KD  0.0001
 #define YAW_PID_MIN  100.0
@@ -46,6 +46,26 @@
 #define ADDR_SLAVE_I2C 2
 #define PACKET_SIZE 12
 
+
+//*********Sensor Config****************
+
+#define ACC_X_OFFSET  19
+#define ACC_Y_OFFSET  7
+#define ACC_Z_OFFSET  -73
+
+#define GYRO_X_OFFSET  1.418431
+#define GYRO_Y_OFFSET  -1.05606
+#define GYRO_Z_OFFSET  -0.54401
+
+
+#define SPLIT  0.99 //COMP-filter nr
+#define RadToDeg 180.0/PI 
+#define  ACC_HPF_NR  98  //high pass filter nr
+#define  GYRO_HPF_NR 0   //high pass filter nr
+#define  GYRO_MAF_NR  2  //Moving average filter nr
+//*************************************
+
+
 //-------Debug Config---------
 //#define DEBUG_OUTPUT
 //#define DEBUG_ANGLES
@@ -68,10 +88,7 @@
 #define PIN_RX_YAW 21
 
 //-------MOTOR PINS-----------
-#define PIN_MOTOR0  9
-#define PIN_MOTOR1  6
-#define PIN_MOTOR2  10
-#define PIN_MOTOR3  5
-
-//-------LED PINS-------------
-//#define PIN_LED 13
+#define PIN_MOTOR0  5
+#define PIN_MOTOR1  10
+#define PIN_MOTOR2  6
+#define PIN_MOTOR3  9

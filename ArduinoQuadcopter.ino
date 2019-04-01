@@ -11,6 +11,8 @@
 #include <Servo.h> 
 #include <Wire.h>
 #include <Kalman.h>
+#include <PIDCont.h>
+#include <MPULib.h>
 
 // Angles & angleSpeed
 float angleX,angleY,angleZ;
@@ -53,6 +55,18 @@ float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gra
 uint8_t teapotPacket[14] = { '$', 0x02, 0,0, 0,0, 0,0, 0,0, 0x00, 0x00, '\r', '\n' };
 
 MPU6050 mpu;
+
+
+
+//PIDCont PIDroll,PIDpitch,PIDyaw,PIDangleX,PIDangleY;
+//MPULib MPU;
+//
+//unsigned long tp;
+//float angles[2]={
+//  0.0,0.0};
+//float gx_aver=0;
+//float gy_aver=0;
+//float gz_aver=0;
 /***************************************************/ 
 
 /********** Create the kalman filter for IMU **********/

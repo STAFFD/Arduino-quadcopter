@@ -1,3 +1,6 @@
+unsigned long ts=millis();
+unsigned long tf=micros();
+
 void MPU_init(){
 /********** IMU initialization **************/
   Wire.begin();
@@ -47,10 +50,17 @@ if ((mpuIntStatus & _BV(MPU6050_INTERRUPT_FIFO_OFLOW_BIT)) || fifoCount >= 1024)
   // (this lets us immediately read more without waiting for an interrupt)
   fifoCount -= packetSize;
   // display Euler angles in degrees
-  mpu.dmpGetQuaternion(&q, fifoBuffer);
-  mpu.dmpGetGravity(&gravity, &q);
-  mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-  mpu.dmpGetGyro(&angle_speed, fifoBuffer);
+
+  if((micros()-tf)>1300){
+      mpu.dmpGetQuaternion(&q, fifoBuffer);
+      mpu.dmpGetGravity(&gravity, &q);
+      mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+      mpu.dmpGetGyro(&angle_speed, fifoBuffer);  //Update only per 1300us, (~800Hz update rate)
+    tf=micros();  
+  }
+
+  
+
             
   angleX = ypr[2] * 180/M_PI;
   angleY = ypr[1] * 180/M_PI;
@@ -59,10 +69,10 @@ if ((mpuIntStatus & _BV(MPU6050_INTERRUPT_FIFO_OFLOW_BIT)) || fifoCount >= 1024)
   angleSpeedY = -angle_speed.y;
   angleSpeedZ = -angle_speed.z;
 
-  Serial.print(angleZ);
-  Serial.print("\t");
-  Serial.println(angleSpeedZ);
-  Serial.print("\n");
+//  Serial.print(angleZ);
+//  Serial.print("\t");
+//  Serial.println(angleSpeedZ);
+//  Serial.print("\n");
 
 
   /************************ kalman filter process ****************************/
