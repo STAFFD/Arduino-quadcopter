@@ -15,12 +15,12 @@ void motors_initialize(){
 }
 
 void motors_arm(){
-  delay(1000);
+  delay(500);
   motor0.writeMicroseconds(MOTOR_MAX_LEVEL);
   motor1.writeMicroseconds(MOTOR_MAX_LEVEL);
   motor2.writeMicroseconds(MOTOR_MAX_LEVEL);
   motor3.writeMicroseconds(MOTOR_MAX_LEVEL);
-  delay(1500);
+  delay(300);
   motor0.writeMicroseconds(MOTOR_ZERO_LEVEL);
   motor1.writeMicroseconds(MOTOR_ZERO_LEVEL);
   motor2.writeMicroseconds(MOTOR_ZERO_LEVEL);

@@ -13,10 +13,10 @@ void control_update(){
   //    X
   // m2   m3
   // yaw control disabled for stabilization testing...
-  m0 = throttle + pid_pitch_out - pid_roll_out - pid_yaw_out;
-  m1 = throttle + pid_pitch_out + pid_roll_out + pid_yaw_out;
-  m2 = throttle - pid_pitch_out - pid_roll_out + pid_yaw_out;
-  m3 = throttle - pid_pitch_out + pid_roll_out - pid_yaw_out;
+  m0 = throttle + pid_pitch_out - pid_roll_out;// - pid_yaw_out;
+  m1 = throttle + pid_pitch_out + pid_roll_out;// + pid_yaw_out;
+  m2 = throttle - pid_pitch_out - pid_roll_out;// + pid_yaw_out;
+  m3 = throttle - pid_pitch_out + pid_roll_out;// - pid_yaw_out;
   
   #ifdef SAFE
     if(throttle < THROTTLE_SAFE_SHUTOFF)
